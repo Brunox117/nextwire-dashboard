@@ -15,8 +15,8 @@ const firebaseConfig = {
   projectId: "nextwire-b1612",
   storageBucket: "nextwire-b1612.firebasestorage.app",
   messagingSenderId: "1041342035707",
-  appId: "1:1041342035707:web:3fdcedae6a4fbf4b27a25e",
-  measurementId: "G-JEL77RLTGN",
+  appId: "1:1041342035707:web:650ce9002920c96327a25e",
+  measurementId: "G-WWEMGL592K",
 };
 
 // Initialize Firebase

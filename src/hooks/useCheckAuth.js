@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../store/authSlice/authSlice";
+import { logout, login } from "../store/authSlice/authSlice";
 import { FirebaseAuth } from "../firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 
