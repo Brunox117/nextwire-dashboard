@@ -1,11 +1,18 @@
 # Enable URL rewriting
 RewriteEngine On
 
-# Handle client-side routing
-# If the requested file or directory doesn't exist, serve index.html
+# Handle client-side routing for React Router
+# This ensures that all routes are handled by index.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [QSA,L]
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule . /index.html [L]
+
+# Alternative approach - more explicit routing
+# Uncomment the following lines if the above doesn't work
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ /index.html [QSA,L]
 
 # Enable compression
 <IfModule mod_deflate.c>
@@ -18,6 +25,7 @@ RewriteRule ^ index.html [QSA,L]
     AddOutputFilterByType DEFLATE application/rss+xml
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
 </IfModule>
 
 # Set cache headers for static assets
@@ -30,6 +38,7 @@ RewriteRule ^ index.html [QSA,L]
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType application/json "access plus 1 hour"
 </IfModule>
 
 # Security headers
@@ -37,4 +46,5 @@ RewriteRule ^ index.html [QSA,L]
     Header always set X-Content-Type-Options nosniff
     Header always set X-Frame-Options DENY
     Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule> 
