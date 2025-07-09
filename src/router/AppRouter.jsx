@@ -1,15 +1,20 @@
 import { Route, Routes } from "react-router";
 import { DashboardPage } from "../modules/dashboard/pages/DashboardPage";
 import { useCheckAuth } from "../hooks/useCheckAuth";
-import { DashboardRoutes } from "../modules/dashboard/router/DashboarRoutes";
 import { AuthRoutes } from "../modules/auth/routes/AuthRoutes";
+import { Loading } from "../components/ui/loading";
 
 export const AppRouter = () => {
   const { status } = useCheckAuth();
+  
+  if (status === "checking") {
+    return <Loading />;
+  }
+  
   return (
     <Routes>
       {status === "authenticated" ? (
-        <Route path="/*" element={<DashboardRoutes />} />
+        <Route path="/*" element={<DashboardPage />} />
       ) : (
         <Route path="/*" element={<AuthRoutes />} />
       )}

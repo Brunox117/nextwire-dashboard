@@ -1,13 +1,15 @@
 import React from "react";
 import { NavBar } from "../components/common/NavBar";
-import { HomeView } from "../views/HomeView";
 import { Footer } from "../components/common/Footer";
+import { DashboardRoutes } from "../router/DashboarRoutes";
 
 export const DashboardPage = () => {
   return (
     <>
       <NavBar />
-      <HomeView />
+      <div className="bg--300 h-screen">
+        <DashboardRoutes />
+      </div>
       <Footer />
     </>
   );
