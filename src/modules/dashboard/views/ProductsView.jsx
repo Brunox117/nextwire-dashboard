@@ -16,7 +16,7 @@ export const ProductsView = () => {
     dispatch(createNewProduct());
   };
   return (
-    <div className="m-3">
+    <div>
       {!activeProduct ? (
         <CreateBox title="Agrega un producto" onClick={onClickAddProduct} />
       ) : (

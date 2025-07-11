@@ -7,7 +7,7 @@ export const DashboardPage = () => {
   return (
     <>
       <NavBar />
-      <div className="bg-gray-50 h-screen">
+      <div className="bg-gray-50">
         <DashboardRoutes />
       </div>
       <Footer />
