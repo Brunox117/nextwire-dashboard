@@ -1,5 +1,29 @@
 import React from "react";
+import { CreateBox } from "../components/forms/CreateBox";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewProduct } from "../../../store/productsSlice/thunks";
+import { ProductForm } from "./forms/ProductForm";
+import { Product } from "../components/Product";
 
 export const ProductsView = () => {
-  return <div>ProductsView de vista</div>;
+  const { activeProduct, products: productsFromFirebase } = useSelector(
+    (state) => state.product
+  );
+  const dispatch = useDispatch();
+
+  const onClickAddProduct = () => {
+    dispatch(createNewProduct());
+  };
+  return (
+    <div className="m-3">
+      {!activeProduct ? (
+        <CreateBox title="Agrega un producto" onClick={onClickAddProduct} />
+      ) : (
+        <>
+          <ProductForm />
+          <Product product={activeProduct} />
+        </>
+      )}
+    </div>
+  );
 };

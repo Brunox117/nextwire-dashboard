@@ -18,7 +18,7 @@ export const createNewProduct = () => {
   return async (dispatch) => {
     dispatch(savingNewProduct());
     const newProduct = {
-      id: "ABC123",
+      id: "",
       name: "",
       description: "",
       imageUrl: "",
