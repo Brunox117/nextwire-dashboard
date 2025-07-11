@@ -6,8 +6,7 @@ import { ProductsFamilyView } from "../views/ProductsFamilyView";
 import { useProducts } from "../../../helpers/firebaseDB/getFromFirebaseDB";
 
 export const DashboardRoutes = () => {
-  //TODO descomentar para obtener
-  // useProducts();
+  useProducts();
   return (
     <Routes>
       <Route path="/" element={<ProductsView />} />

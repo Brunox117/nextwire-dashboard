@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../../../hooks/useForm";
 import {
   clearMessage,
+  deleteActiveProduct,
   setActiveProduct,
 } from "../../../../store/productsSlice/productSlice";
 import Swal from "sweetalert2";
@@ -53,12 +54,19 @@ export const ProductForm = () => {
   useEffect(() => {
     if (messageSaved.length > 0) {
       Swal.fire("Producto actualizado/creado", "", "success");
+      setTimeout(() => {
+        dispatch(createNewProduct());
+      }, 100);
     }
     dispatch(clearMessage());
-  }, [messageSaved]);
+  }, [messageSaved, dispatch]);
 
   const onSaveProduct = () => {
     dispatch(startSaveProduct());
+  };
+
+  const onCancel = () => {
+    dispatch(deleteActiveProduct());
   };
 
   const onCreateProduct = () => {
@@ -95,11 +103,13 @@ export const ProductForm = () => {
       onSave={onSaveProduct}
       isFormValid={isFormValid}
       isSaving={isSaving}
+      onCancel={onCancel}
     >
       <Input
         className="max-w-sm"
         placeholder="Nombre del producto"
         name="name"
+        value={name}
         onChange={onInputChange}
       />
 
@@ -107,6 +117,7 @@ export const ProductForm = () => {
         className="mt-2"
         placeholder="Descripción del producto"
         name="description"
+        value={description}
         onChange={onInputChange}
       />
     </FormLayout>

@@ -23,7 +23,7 @@ export const createNewProduct = () => {
       description: "",
       imageUrl: "",
     };
-    await dispatch(addNewEmptyProduct(newProduct));
+    dispatch(addNewEmptyProduct());
     dispatch(setActiveProduct(newProduct));
   };
 };
@@ -74,13 +74,14 @@ export const startDeletingProductById = (product) => {
     if (activeProduct && activeProduct.id === product.id) {
       dispacth(startDeletingProduct());
     }
-    const imageUrl = product.imageUrl;
-    if (imageUrl !== "") {
-      await imgDelete(imageUrl);
-    }
+    // const imageUrl = product.imageUrl;
+    // if (imageUrl !== "") {
+    //   await imgDelete(imageUrl);
+    // }
     if (product.id === "") {
       console.log(`product.id = ${product.id}`);
     } else {
+      console.log(`products/${product.id}`);
       const docRef = doc(FirebaseDB, `products/${product.id}`);
       await deleteDoc(docRef);
       dispacth(deleteProductById(product.id));
