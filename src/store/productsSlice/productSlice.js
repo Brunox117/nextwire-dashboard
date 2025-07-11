@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 export const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -15,7 +17,7 @@ export const productSlice = createSlice({
     savingNewProduct: (state) => {
       state.isSaving = true;
     },
-    addNewEmptyProduct: (state, action) => {
+    addNewEmptyProduct: (state) => {
       // state.products.push(action.payload);
       state.isSaving = false;
     },
