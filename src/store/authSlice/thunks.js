@@ -1,7 +1,7 @@
 import {
   loginWithEmailPassword,
-  logoutFirebase,
-} from "../../firebase/providers";
+  logoutSupabase,
+} from "../../helpers/supabaseDB/helpers";
 import { checkingCredentials, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email, password) => {
@@ -24,7 +24,7 @@ export const startLogin = ({ email, password }) => {
 
 export const startLogout = () => {
   return async (dispatch) => {
-    await logoutFirebase();
+    await logoutSupabase();
     dispatch(logout());
   };
 };
