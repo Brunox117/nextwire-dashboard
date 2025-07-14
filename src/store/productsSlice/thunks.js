@@ -10,7 +10,6 @@ import {
   setSaving,
 } from "./productSlice";
 import { imgDelete } from "../../helpers/imgDelete";
-import { loadProducts } from "../../helpers/firebaseDB/loadFromFirebase";
 import { loadProductsFromSupabase } from "../../helpers/supabaseDB/loadFromSupabase";
 import { supabaseDB } from "../../helpers/supabaseDB/supabaseInstance";
 
@@ -114,7 +113,7 @@ export const startDeletingProductById = (product) => {
 
 export const startLoadingProducts = () => {
   return async (dispatch) => {
-    const products = await loadProducts();
+    const products = await loadProductsFromSupabase();
     dispatch(setProducts(products));
   };
 };

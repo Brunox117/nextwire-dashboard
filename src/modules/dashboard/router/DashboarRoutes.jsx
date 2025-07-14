@@ -3,12 +3,9 @@ import { CategoriesView } from "../views/CategoriesView";
 import { ProductsView } from "../views/ProductsView";
 import { ProductsAplicationView } from "../views/ProductsAplicationView";
 import { ProductsFamilyView } from "../views/ProductsFamilyView";
-import { useProducts } from "../../../helpers/firebaseDB/getFromFirebaseDB";
-import { loadProductsFromSupabase } from "../../../helpers/supabaseDB/loadFromSupabase";
 import { useProductsFromSupabase } from "../../../helpers/supabaseDB/getFromSupabaseDB";
 
 export const DashboardRoutes = () => {
-  // useProducts();
   useProductsFromSupabase();
   return (
     <Routes>

@@ -13,7 +13,7 @@ export const useCheckAuth = () => {
       dispatch(login({ uid, displayName: name }));
     };
     verifySession();
-  }, []);
+  });
   return {
     status,
   };
