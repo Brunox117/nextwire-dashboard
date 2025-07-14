@@ -11,3 +11,12 @@ export const loadProductsFromSupabase = async () => {
   }
   return products;
 };
+
+export const loadCategoriesFromSupabase = async () => {
+  const { data } = await supabaseDB.from("categories").select("*");
+  const categories = [];
+  data.forEach((category) => {
+    categories.push({ id: category.id, ...category });
+  });
+  return categories;
+};

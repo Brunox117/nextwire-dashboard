@@ -1,3 +1,5 @@
+import { loadCategoriesFromSupabase } from "../../helpers/supabaseDB/loadFromSupabase";
+import { supabaseDB } from "../../helpers/supabaseDB/supabaseInstance";
 import {
   addNewCategory,
   addNewEmptyCategory,
@@ -27,6 +29,29 @@ export const startSaveCategory = () => {
     dispatch(setSaving());
     const { activeCategory } = getState().category;
     const categoryToSupabase = { ...activeCategory };
+    if (categoryToSupabase.id === "") {
+      const { data, error } = await supabaseDB
+        .from("categories")
+        .insert([{ name: categoryToSupabase.name }])
+        .select()
+        .single();
+      if (error) {
+        console.log(error);
+        return;
+      }
+      dispatch(setActiveCategory(data));
+      dispatch(addNewCategory(data));
+    } else {
+      const { error } = await supabaseDB
+        .from("categories")
+        .update({ name: categoryToSupabase.name })
+        .eq("id", activeCategory.id);
+      if (error) {
+        console.log(error);
+        return;
+      }
+      dispatch(categoryUpdated(activeCategory));
+    }
   };
 };
 
@@ -36,6 +61,7 @@ export const startDeletingCategory = () => {
     if (activeCategory.id === "") {
       dispatch(deleteActiveCategory());
     } else {
+      await supabaseDB.from("categories").delete().eq("id", activeCategory.id);
       dispatch(deleteCategoryById(activeCategory.id));
     }
   };
@@ -51,6 +77,7 @@ export const startDeletingCategoryById = (category) => {
     //If the category isn't selected, we delete it from the database and the state
     //No need to clear the active category because it's not selected
     if (category.id !== "") {
+      await supabaseDB.from("categories").delete().eq("id", category.id);
       dispatch(deleteCategoryById(category.id));
     }
   };
@@ -58,7 +85,7 @@ export const startDeletingCategoryById = (category) => {
 
 export const startLoadingCategories = () => {
   return async (dispatch) => {
-    // const categories = await loadCategories();
-    // dispatch(setCategories(categories));
+    const categories = await loadCategoriesFromSupabase();
+    dispatch(setCategories(categories));
   };
 };

@@ -56,7 +56,7 @@ export const startSaveProduct = () => {
       dispatch(addNewProduct(data));
     } else {
       // Editar producto existente
-      const { data, error } = await supabaseDB
+      const { error } = await supabaseDB
         .from("products")
         .update({
           name: productToFirestore.name,
