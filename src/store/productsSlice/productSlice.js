@@ -32,7 +32,7 @@ export const productSlice = createSlice({
       state.messageSaved = "";
     },
     setPhotoToActiveProduct: (state, action) => {
-      state.activeProduct.imageUrl = action.payload;
+      state.activeProduct.image_url = action.payload;
       state.isSaving = false;
     },
     clearProductsOnLogout: (state) => {

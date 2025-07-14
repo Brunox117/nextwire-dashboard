@@ -1,4 +1,3 @@
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
 import {
   addNewEmptyProduct,
   addNewProduct,
@@ -10,9 +9,10 @@ import {
   setProducts,
   setSaving,
 } from "./productSlice";
-import { FirebaseDB } from "../../firebase/config";
 import { imgDelete } from "../../helpers/imgDelete";
 import { loadProducts } from "../../helpers/firebaseDB/loadFromFirebase";
+import { loadProductsFromSupabase } from "../../helpers/supabaseDB/loadFromSupabase";
+import { supabaseDB } from "../../helpers/supabaseDB/supabaseInstance";
 
 export const createNewProduct = () => {
   return async (dispatch) => {
@@ -21,7 +21,7 @@ export const createNewProduct = () => {
       id: "",
       name: "",
       description: "",
-      imageUrl: "",
+      image_url: "",
     };
     dispatch(addNewEmptyProduct());
     dispatch(setActiveProduct(newProduct));
@@ -35,17 +35,40 @@ export const startSaveProduct = () => {
     const productToFirestore = { ...activeProduct };
 
     if (productToFirestore.id === "") {
-      const newDoc = doc(collection(FirebaseDB, `products/`));
-      productToFirestore.id = newDoc.id;
-      await setDoc(newDoc, productToFirestore);
-      // const setDocResp = await setDoc(newDoc, productToFirestore);
-      // console.log(setDocResp);
-      dispatch(setActiveProduct(productToFirestore));
-      dispatch(addNewProduct(productToFirestore));
+      // Crear producto nuevo
+      const { data, error } = await supabaseDB
+        .from("products")
+        .insert([
+          {
+            name: productToFirestore.name,
+            description: productToFirestore.description,
+            image_url: "url",
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+      console.log(`el producto creado desde supabase es: ${data}`);
+      dispatch(setActiveProduct(data));
+      dispatch(addNewProduct(data));
     } else {
-      delete productToFirestore.id;
-      const docRef = doc(FirebaseDB, `products/${activeProduct.id}`);
-      await setDoc(docRef, productToFirestore, { merge: true });
+      // Editar producto existente
+      const { data, error } = await supabaseDB
+        .from("products")
+        .update({
+          name: productToFirestore.name,
+          description: productToFirestore.description,
+          image_url: "url",
+        })
+        .eq("id", activeProduct.id);
+      if (error) {
+        // Manejar error
+        return;
+      }
       dispatch(productUpdated(activeProduct));
     }
   };
@@ -54,15 +77,15 @@ export const startSaveProduct = () => {
 export const startDeletingProduct = () => {
   return async (dispatch, getState) => {
     const { activeProduct } = getState().product;
-    const imageUrl = activeProduct.imageUrl;
-    if (imageUrl !== "") {
-      await imgDelete(imageUrl);
+    // TODO: Delete image from supabase storage
+    const image_url = activeProduct.image_url;
+    if (image_url !== "") {
+      await imgDelete(image_url);
     }
     if (activeProduct.id === "") {
       dispatch(deleteActiveProduct());
     } else {
-      const docRef = doc(FirebaseDB, `products/${activeProduct.id}`);
-      await deleteDoc(docRef);
+      await supabaseDB.from("products").delete().eq("id", activeProduct.id);
       dispatch(deleteProductById(activeProduct.id));
     }
   };
@@ -74,16 +97,16 @@ export const startDeletingProductById = (product) => {
     if (activeProduct && activeProduct.id === product.id) {
       dispacth(startDeletingProduct());
     }
-    // const imageUrl = product.imageUrl;
-    // if (imageUrl !== "") {
-    //   await imgDelete(imageUrl);
+    // TODO: Delete image from supabase storage
+    // const image_url = product.image_url;
+    // if (image_url !== "") {
+    //   await imgDelete(image_url);
     // }
     if (product.id === "") {
       console.log(`product.id = ${product.id}`);
     } else {
       console.log(`products/${product.id}`);
-      const docRef = doc(FirebaseDB, `products/${product.id}`);
-      await deleteDoc(docRef);
+      await supabaseDB.from("products").delete().eq("id", product.id);
       dispacth(deleteProductById(product.id));
     }
   };
@@ -92,6 +115,13 @@ export const startDeletingProductById = (product) => {
 export const startLoadingProducts = () => {
   return async (dispatch) => {
     const products = await loadProducts();
+    dispatch(setProducts(products));
+  };
+};
+
+export const startLoadingProductsFromSupabase = () => {
+  return async (dispatch) => {
+    const products = await loadProductsFromSupabase();
     dispatch(setProducts(products));
   };
 };

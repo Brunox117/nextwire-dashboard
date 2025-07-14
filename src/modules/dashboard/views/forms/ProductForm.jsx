@@ -22,7 +22,7 @@ const formValidations = {
     (value) => value.trim().length > 0,
     "La descripción es requerida",
   ],
-  // imageUrl: [
+  // image_url: [
   //   (value) => value.trim().length > 0,
   //   "La URL de la imagen es requerida",
   // ],
@@ -36,7 +36,7 @@ export const ProductForm = () => {
   // id: "",
   // name: "",
   // description: "",
-  // imageUrl: "",
+  // image_url: "",
   const { id, name, description, onInputChange, setFormState, isFormValid } =
     useForm(activeProduct, formValidations);
 
@@ -46,7 +46,7 @@ export const ProductForm = () => {
         id,
         name,
         description,
-        // imageUrl,
+        // image_url,
       })
     );
   }, [dispatch, name, description, id]);
