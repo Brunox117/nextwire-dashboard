@@ -58,6 +58,7 @@ export const startSaveCategory = () => {
 export const startDeletingCategory = () => {
   return async (dispatch, getState) => {
     const { activeCategory } = getState().category;
+    console.log({ activeCategory });
     if (activeCategory.id === "") {
       dispatch(deleteActiveCategory());
     } else {
@@ -71,6 +72,7 @@ export const startDeletingCategory = () => {
 export const startDeletingCategoryById = (category) => {
   return async (dispatch, getState) => {
     const { activeCategory } = getState().category;
+    console.log(`activeCategory: ${activeCategory} y category: ${category}`);
     if (activeCategory && activeCategory.id === category.id) {
       dispatch(startDeletingCategory());
     }

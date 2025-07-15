@@ -3,10 +3,14 @@ import { CategoriesView } from "../views/CategoriesView";
 import { ProductsView } from "../views/ProductsView";
 import { ProductsAplicationView } from "../views/ProductsAplicationView";
 import { ProductsFamilyView } from "../views/ProductsFamilyView";
-import { useProductsFromSupabase } from "../../../helpers/supabaseDB/getFromSupabaseDB";
+import {
+  useCategoriesFromSupabase,
+  useProductsFromSupabase,
+} from "../../../helpers/supabaseDB/getFromSupabaseDB";
 
 export const DashboardRoutes = () => {
   useProductsFromSupabase();
+  useCategoriesFromSupabase();
   return (
     <Routes>
       <Route path="/" element={<ProductsView />} />
