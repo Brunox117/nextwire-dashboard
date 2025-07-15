@@ -20,3 +20,21 @@ export const loadCategoriesFromSupabase = async () => {
   });
   return categories;
 };
+
+export const loadApplicationsFromSupabase = async () => {
+  const { data } = await supabaseDB.from("applications").select("*");
+  const applications = [];
+  data.forEach((application) => {
+    applications.push({ id: application.id, ...application });
+  });
+  return applications;
+};
+
+export const loadFamiliesFromSupabase = async () => {
+  const { data } = await supabaseDB.from("families").select("*");
+  const families = [];
+  data.forEach((family) => {
+    families.push({ id: family.id, ...family });
+  });
+  return families;
+};
