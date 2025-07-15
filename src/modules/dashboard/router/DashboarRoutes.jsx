@@ -7,12 +7,14 @@ import {
   useCategoriesFromSupabase,
   useProductsFromSupabase,
   useApplicationsFromSupabase,
+  useFamiliesFromSupabase,
 } from "../../../helpers/supabaseDB/getFromSupabaseDB";
 
 export const DashboardRoutes = () => {
   useProductsFromSupabase();
   useCategoriesFromSupabase();
   useApplicationsFromSupabase();
+  useFamiliesFromSupabase();
   return (
     <Routes>
       <Route path="/" element={<ProductsView />} />
