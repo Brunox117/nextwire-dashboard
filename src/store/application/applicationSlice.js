@@ -23,7 +23,7 @@ export const applicationSlice = createSlice({
       state.activeApplication = action.payload;
     },
     setApplications: (state, action) => {
-      state.categories = action.payload;
+      state.applications = action.payload;
     },
     setSaving: (state) => {
       state.isSaving = true;

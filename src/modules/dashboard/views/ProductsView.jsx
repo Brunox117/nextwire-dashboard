@@ -10,6 +10,12 @@ export const ProductsView = () => {
   const { activeProduct, products: productsFromFirebase } = useSelector(
     (state) => state.product
   );
+  const { categories } = useSelector((state) => state.category);
+  const { applications } = useSelector((state) => state.application);
+  const { families } = useSelector((state) => state.family);
+  console.log({ categories });
+  console.log({ applications });
+  console.log({ families });
   const dispatch = useDispatch();
 
   const onClickAddProduct = () => {
