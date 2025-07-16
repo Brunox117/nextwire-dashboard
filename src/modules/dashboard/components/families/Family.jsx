@@ -17,8 +17,16 @@ export const Family = ({ family, onEdit, onDelete }) => {
       <CardFooter className="flex justify-center gap-2 p-4">
         {onEdit != null && onDelete != null ? (
           <>
-            <Button onClick={() => onEdit(family)}>Editar</Button>
-            <Button onClick={() => onDelete(family)}>Eliminar</Button>
+            <Button variant="default" size="sm" onClick={() => onEdit(family)}>
+              Editar
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => onDelete(family)}
+            >
+              Borrar
+            </Button>
           </>
         ) : (
           <></>

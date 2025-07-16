@@ -1,61 +1,61 @@
 import React, { useEffect } from "react";
-import { FormLayout } from "../../components/forms/FormLayout";
-import { Input } from "../../../../components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../../../hooks/useForm";
 import {
-  createNewCategory,
-  startDeletingCategory,
-  startSaveCategory,
-} from "../../../../store/categorySlice/thunks";
-import {
   clearMessage,
-  setActiveCategory,
-  deleteActiveCategory,
-} from "../../../../store/categorySlice/categorySlice";
+  deleteActiveFamily,
+  setActiveFamily,
+} from "../../../../store/familySlice/familySlice";
+import {
+  createNewFamily,
+  startDeletingFamily,
+  startSaveFamily,
+} from "../../../../store/familySlice/thunks";
 import Swal from "sweetalert2";
+import { FormLayout } from "../../components/forms/FormLayout";
+import { Input } from "../../../../components/ui/input";
 
 const formValidations = {
   name: [(value) => value.trim().length > 0, "El nombre es requerido"],
 };
 
-export const CategoryForm = () => {
+export const FamilyForm = () => {
   const dispatch = useDispatch();
-  const { activeCategory, isSaving, messageSaved } = useSelector(
-    (state) => state.category
+  const { activeFamily, isSaving, messageSaved } = useSelector(
+    (state) => state.family
   );
   const { id, name, onInputChange, setFormState, isFormValid } = useForm(
-    activeCategory,
+    activeFamily,
     formValidations
   );
 
   useEffect(() => {
-    dispatch(setActiveCategory({ id, name }));
+    dispatch(setActiveFamily({ id, name }));
   }, [dispatch, id, name]);
 
-  const onSaveCategory = () => {
-    dispatch(startSaveCategory(activeCategory));
+  const onSaveFamily = () => {
+    dispatch(startSaveFamily(activeFamily));
   };
 
   const onCancel = () => {
-    dispatch(deleteActiveCategory());
+    dispatch(deleteActiveFamily());
   };
 
-  const onCreateCategory = () => {
-    dispatch(createNewCategory());
-    setFormState(activeCategory);
+  const onCreateFamily = () => {
+    dispatch(createNewFamily());
+    setFormState(activeFamily);
   };
 
   const onDelete = () => {
     Swal.fire({
-      title: "Seguro que quieres borrar la categoría!",
+      title: "Seguro que quieres borrar la familia!",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "SI",
       denyButtonText: `NO`,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(startDeletingCategory());
+        dispatch(startDeletingFamily());
       } else if (result.isDenied) {
         return;
       }
@@ -64,9 +64,9 @@ export const CategoryForm = () => {
 
   useEffect(() => {
     if (messageSaved.length > 0) {
-      Swal.fire("Categoría actualizada/creada", "", "success");
+      Swal.fire("Familia actualizada/creada", "", "success");
       setTimeout(() => {
-        dispatch(createNewCategory());
+        dispatch(createNewFamily());
       }, 100);
     }
     dispatch(clearMessage());
@@ -74,17 +74,17 @@ export const CategoryForm = () => {
 
   return (
     <FormLayout
-      title="Formulario de categorías"
-      onCreate={onCreateCategory}
+      title="Formulario de familias"
+      onCreate={onCreateFamily}
       onDelete={onDelete}
-      onSave={onSaveCategory}
+      onSave={onSaveFamily}
       isFormValid={isFormValid}
       isSaving={isSaving}
       onCancel={onCancel}
     >
       <Input
         className="max-w-sm"
-        placeholder="Nombre de la categoría"
+        placeholder="Nombre de la familia"
         name="name"
         value={name}
         onChange={onInputChange}

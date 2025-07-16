@@ -1,61 +1,61 @@
 import React, { useEffect } from "react";
-import { FormLayout } from "../../components/forms/FormLayout";
-import { Input } from "../../../../components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../../../hooks/useForm";
 import {
-  createNewCategory,
-  startDeletingCategory,
-  startSaveCategory,
-} from "../../../../store/categorySlice/thunks";
-import {
   clearMessage,
-  setActiveCategory,
-  deleteActiveCategory,
-} from "../../../../store/categorySlice/categorySlice";
+  deleteActiveApplication,
+  setActiveApplication,
+} from "../../../../store/applicationSlice/applicationSlice";
+import {
+  createNewApplication,
+  startDeletingApplication,
+  startSaveApplication,
+} from "../../../../store/applicationSlice/thunks";
 import Swal from "sweetalert2";
+import { Input } from "../../../../components/ui/input";
+import { FormLayout } from "../../components/forms/FormLayout";
 
 const formValidations = {
   name: [(value) => value.trim().length > 0, "El nombre es requerido"],
 };
 
-export const CategoryForm = () => {
+export const ApplicationForm = () => {
   const dispatch = useDispatch();
-  const { activeCategory, isSaving, messageSaved } = useSelector(
-    (state) => state.category
+  const { activeApplication, isSaving, messageSaved } = useSelector(
+    (state) => state.application
   );
   const { id, name, onInputChange, setFormState, isFormValid } = useForm(
-    activeCategory,
+    activeApplication,
     formValidations
   );
 
   useEffect(() => {
-    dispatch(setActiveCategory({ id, name }));
+    dispatch(setActiveApplication({ id, name }));
   }, [dispatch, id, name]);
 
-  const onSaveCategory = () => {
-    dispatch(startSaveCategory(activeCategory));
+  const onSaveApplication = () => {
+    dispatch(startSaveApplication(activeApplication));
   };
 
   const onCancel = () => {
-    dispatch(deleteActiveCategory());
+    dispatch(deleteActiveApplication());
   };
 
-  const onCreateCategory = () => {
-    dispatch(createNewCategory());
-    setFormState(activeCategory);
+  const onCreateApplication = () => {
+    dispatch(createNewApplication());
+    setFormState(activeApplication);
   };
 
   const onDelete = () => {
     Swal.fire({
-      title: "Seguro que quieres borrar la categoría!",
+      title: "Seguro que quieres borrar la aplicación!",
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: "SI",
       denyButtonText: `NO`,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(startDeletingCategory());
+        dispatch(startDeletingApplication());
       } else if (result.isDenied) {
         return;
       }
@@ -64,27 +64,26 @@ export const CategoryForm = () => {
 
   useEffect(() => {
     if (messageSaved.length > 0) {
-      Swal.fire("Categoría actualizada/creada", "", "success");
+      Swal.fire("Aplicación actualizada/creada", "", "success");
       setTimeout(() => {
-        dispatch(createNewCategory());
+        dispatch(createNewApplication());
       }, 100);
     }
     dispatch(clearMessage());
   }, [messageSaved, dispatch]);
-
   return (
     <FormLayout
-      title="Formulario de categorías"
-      onCreate={onCreateCategory}
+      title="Formulario de aplicaciones"
+      onCreate={onCreateApplication}
       onDelete={onDelete}
-      onSave={onSaveCategory}
+      onSave={onSaveApplication}
       isFormValid={isFormValid}
       isSaving={isSaving}
       onCancel={onCancel}
     >
       <Input
         className="max-w-sm"
-        placeholder="Nombre de la categoría"
+        placeholder="Nombre de la aplicación"
         name="name"
         value={name}
         onChange={onInputChange}

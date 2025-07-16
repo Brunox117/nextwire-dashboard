@@ -17,8 +17,20 @@ export const Aplication = ({ application, onEdit, onDelete }) => {
       <CardFooter className="flex justify-center gap-2 p-4">
         {onEdit != null && onDelete != null ? (
           <>
-            <Button onClick={() => onEdit(application)}>Editar</Button>
-            <Button onClick={() => onDelete(application)}>Eliminar</Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => onEdit(application)}
+            >
+              Editar
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => onDelete(application)}
+            >
+              Borrar
+            </Button>
           </>
         ) : (
           <></>
