@@ -3,10 +3,18 @@ import { CategoriesView } from "../views/CategoriesView";
 import { ProductsView } from "../views/ProductsView";
 import { ProductsAplicationView } from "../views/ProductsAplicationView";
 import { ProductsFamilyView } from "../views/ProductsFamilyView";
-import { useProducts } from "../../../helpers/firebaseDB/getFromFirebaseDB";
+import {
+  useApplications,
+  useCategories,
+  useFamilies,
+  useProducts,
+} from "../../../helpers/firebaseDB/getFromFirebaseDB";
 
 export const DashboardRoutes = () => {
   useProducts();
+  useCategories();
+  useFamilies();
+  useApplications();
   return (
     <Routes>
       <Route path="/" element={<ProductsView />} />

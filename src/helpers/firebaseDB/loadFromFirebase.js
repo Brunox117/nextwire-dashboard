@@ -20,3 +20,23 @@ export const loadCategories = async () => {
   });
   return categories;
 };
+
+export const loadApplications = async () => {
+  const collectionRef = collection(FirebaseDB, "/applications/");
+  const docs = await getDocs(collectionRef);
+  const applications = [];
+  docs.forEach((application) => {
+    applications.push({ id: application.id, ...application.data() });
+  });
+  return applications;
+};
+
+export const loadFamilies = async () => {
+  const collectionRef = collection(FirebaseDB, "/families/");
+  const docs = await getDocs(collectionRef);
+  const families = [];
+  docs.forEach((family) => {
+    families.push({ id: family.id, ...family.data() });
+  });
+  return families;
+};
