@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setActiveApplication } from "../../../../store/application/applicationSlice";
-import { startDeletingApplicationById } from "../../../../store/application/thunks";
+
 import { Aplication } from "./Aplication";
+import { setActiveApplication } from "../../../../store/applicationSlice/applicationSlice";
+import { startDeletingApplicationById } from "../../../../store/applicationSlice/thunks";
 
 export const ApplicationList = ({ applications }) => {
   const dispatch = useDispatch();

@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setActiveFamily } from "../../../../store/family/familySlice";
-import { startDeletingFamilyById } from "../../../../store/family/thunks";
+
 import { Family } from "./Family";
+import { setActiveFamily } from "../../../../store/familySlice/familySlice";
+import { startDeletingFamilyById } from "../../../../store/familySlice/thunks";
 
 export const FamilyList = ({ families }) => {
   const dispatch = useDispatch();
