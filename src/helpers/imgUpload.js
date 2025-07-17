@@ -1,4 +1,4 @@
-import { getDownloadURL, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { FirebaseSTORAGE } from "../firebase/config";
 
 export const fileUpload = async (file) => {
@@ -8,7 +8,7 @@ export const fileUpload = async (file) => {
 
   try {
     //Subir el archivo al almacenamiento de firebase
-    const snapshot = await uploadBytes(storageRef, file);
+    await uploadBytes(storageRef, file);
 
     //Obtener la URL de descarga del archivo
     const downloadUrl = await getDownloadURL(storageRef);

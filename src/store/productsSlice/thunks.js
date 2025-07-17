@@ -7,12 +7,14 @@ import {
   productUpdated,
   savingNewProduct,
   setActiveProduct,
+  setPhotoToActiveProduct,
   setProducts,
   setSaving,
 } from "./productSlice";
 import { FirebaseDB } from "../../firebase/config";
 import { imgDelete } from "../../helpers/imgDelete";
 import { loadProducts } from "../../helpers/firebaseDB/loadFromFirebase";
+import { fileUpload } from "../../helpers/imgUpload";
 
 export const createNewProduct = () => {
   return async (dispatch) => {
@@ -38,8 +40,6 @@ export const startSaveProduct = () => {
       const newDoc = doc(collection(FirebaseDB, `products/`));
       productToFirestore.id = newDoc.id;
       await setDoc(newDoc, productToFirestore);
-      // const setDocResp = await setDoc(newDoc, productToFirestore);
-      // console.log(setDocResp);
       dispatch(setActiveProduct(productToFirestore));
       dispatch(addNewProduct(productToFirestore));
     } else {
@@ -68,16 +68,29 @@ export const startDeletingProduct = () => {
   };
 };
 
+export const startUploadingImg = (file) => {
+  return async (dispatch, getState) => {
+    const { activeProduct } = getState().product;
+    const imageUrl = activeProduct.imageUrl;
+    if (imageUrl !== "") {
+      await imgDelete(imageUrl);
+    }
+    dispatch(setSaving());
+    const imgUrl = await fileUpload(file);
+    dispatch(setPhotoToActiveProduct(imgUrl));
+  };
+};
+
 export const startDeletingProductById = (product) => {
   return async (dispacth, getState) => {
     const { activeProduct } = getState().product;
     if (activeProduct && activeProduct.id === product.id) {
       dispacth(startDeletingProduct());
     }
-    // const imageUrl = product.imageUrl;
-    // if (imageUrl !== "") {
-    //   await imgDelete(imageUrl);
-    // }
+    const imageUrl = product.imageUrl;
+    if (imageUrl !== "") {
+      await imgDelete(imageUrl);
+    }
     if (product.id === "") {
       console.log(`product.id = ${product.id}`);
     } else {

@@ -11,6 +11,7 @@ export const productSlice = createSlice({
     //     id: 'ABC123',
     //     name: '',
     //     description: '',
+    //     imageUrl: '',
     // }
   },
   reducers: {

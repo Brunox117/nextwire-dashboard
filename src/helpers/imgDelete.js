@@ -5,7 +5,9 @@ export const imgDelete = async (imageUrl) => {
   try {
     const storageRef = ref(FirebaseSTORAGE, imageUrl);
     await deleteObject(storageRef);
+    return true;
   } catch (error) {
-    console.log(`Error al borrar la imagen ${error}`);
+    console.error(`Error al borrar la imagen: ${error.message}`);
+    return false;
   }
 };

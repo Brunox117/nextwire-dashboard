@@ -12,9 +12,11 @@ import {
   createNewProduct,
   startDeletingProduct,
   startSaveProduct,
+  startUploadingImg,
 } from "../../../../store/productsSlice/thunks";
 import { Input } from "../../../../components/ui/input";
 import { Textarea } from "../../../../components/ui/textarea";
+import { UploadImage } from "../../components/common/upload_image";
 
 const formValidations = {
   name: [(value) => value.trim().length > 0, "El nombre es requerido"],
@@ -37,8 +39,15 @@ export const ProductForm = () => {
   // name: "",
   // description: "",
   // imageUrl: "",
-  const { id, name, description, onInputChange, setFormState, isFormValid } =
-    useForm(activeProduct, formValidations);
+  const {
+    id,
+    name,
+    description,
+    imageUrl,
+    onInputChange,
+    setFormState,
+    isFormValid,
+  } = useForm(activeProduct, formValidations);
 
   useEffect(() => {
     dispatch(
@@ -46,10 +55,10 @@ export const ProductForm = () => {
         id,
         name,
         description,
-        // imageUrl,
+        imageUrl,
       })
     );
-  }, [dispatch, name, description, id]);
+  }, [dispatch, name, description, id, imageUrl]);
 
   useEffect(() => {
     if (messageSaved.length > 0) {
@@ -72,6 +81,10 @@ export const ProductForm = () => {
   const onCreateProduct = () => {
     dispatch(createNewProduct());
     setFormState(activeProduct);
+  };
+
+  const onImageUpload = (file) => {
+    dispatch(startUploadingImg(file));
   };
 
   const onDelete = () => {
@@ -120,6 +133,7 @@ export const ProductForm = () => {
         value={description}
         onChange={onInputChange}
       />
+      <UploadImage onImageUpload={onImageUpload} isSaving={isSaving} />
     </FormLayout>
   );
 };
