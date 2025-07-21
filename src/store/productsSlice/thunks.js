@@ -74,8 +74,12 @@ export const startUploadingImg = (file) => {
   return async (dispatch, getState) => {
     const { activeProduct } = getState().product;
     const imageUrl = activeProduct.imageUrl;
+    const pdfUrl = activeProduct.pdfUrl;
     if (imageUrl !== "") {
       await imgDelete(imageUrl);
+    }
+    if (pdfUrl !== "") {
+      await imgDelete(pdfUrl);
     }
     dispatch(setSaving());
     const imgUrl = await fileUpload(file);
@@ -103,8 +107,12 @@ export const startDeletingProductById = (product) => {
       dispacth(startDeletingProduct());
     }
     const imageUrl = product.imageUrl;
+    const pdfUrl = product.pdfUrl;
     if (imageUrl !== "") {
       await imgDelete(imageUrl);
+    }
+    if (pdfUrl !== "") {
+      await imgDelete(pdfUrl);
     }
     if (product.id === "") {
       console.log(`product.id = ${product.id}`);
