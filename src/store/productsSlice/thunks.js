@@ -7,6 +7,7 @@ import {
   productUpdated,
   savingNewProduct,
   setActiveProduct,
+  setPdfToActiveProduct,
   setPhotoToActiveProduct,
   setProducts,
   setSaving,
@@ -24,6 +25,7 @@ export const createNewProduct = () => {
       name: "",
       description: "",
       imageUrl: "",
+      pdfUrl: "",
     };
     dispatch(addNewEmptyProduct());
     dispatch(setActiveProduct(newProduct));
@@ -78,6 +80,19 @@ export const startUploadingImg = (file) => {
     dispatch(setSaving());
     const imgUrl = await fileUpload(file);
     dispatch(setPhotoToActiveProduct(imgUrl));
+  };
+};
+
+export const startUploadinggPdf = (file) => {
+  return async (dispatch, getState) => {
+    const { activeProduct } = getState().product;
+    const pdfUrlFromProduct = activeProduct.pdfUrl;
+    if (pdfUrlFromProduct !== "") {
+      await imgDelete(pdfUrlFromProduct);
+    }
+    dispatch(setSaving());
+    const pdfUrl = await fileUpload(file);
+    dispatch(setPdfToActiveProduct(pdfUrl));
   };
 };
 

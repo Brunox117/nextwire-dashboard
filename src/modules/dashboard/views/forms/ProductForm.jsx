@@ -12,11 +12,12 @@ import {
   createNewProduct,
   startDeletingProduct,
   startSaveProduct,
+  startUploadinggPdf,
   startUploadingImg,
 } from "../../../../store/productsSlice/thunks";
 import { Input } from "../../../../components/ui/input";
 import { Textarea } from "../../../../components/ui/textarea";
-import { UploadImage } from "../../components/common/upload_image";
+import { UploadButton } from "../../components/common/UploadButton";
 
 const formValidations = {
   name: [(value) => value.trim().length > 0, "El nombre es requerido"],
@@ -39,11 +40,13 @@ export const ProductForm = () => {
   // name: "",
   // description: "",
   // imageUrl: "",
+  // pdfUrl: "",
   const {
     id,
     name,
     description,
     imageUrl,
+    pdfUrl,
     onInputChange,
     setFormState,
     isFormValid,
@@ -56,9 +59,10 @@ export const ProductForm = () => {
         name,
         description,
         imageUrl,
+        pdfUrl,
       })
     );
-  }, [dispatch, name, description, id, imageUrl]);
+  }, [dispatch, name, description, id, imageUrl, pdfUrl]);
 
   useEffect(() => {
     if (messageSaved.length > 0) {
@@ -85,6 +89,10 @@ export const ProductForm = () => {
 
   const onImageUpload = (file) => {
     dispatch(startUploadingImg(file));
+  };
+
+  const onFileUpload = (file) => {
+    dispatch(startUploadinggPdf(file));
   };
 
   const onDelete = () => {
@@ -133,7 +141,13 @@ export const ProductForm = () => {
         value={description}
         onChange={onInputChange}
       />
-      <UploadImage onImageUpload={onImageUpload} isSaving={isSaving} />
+      <UploadButton onUpload={onImageUpload} isSaving={isSaving} />
+      <UploadButton
+        onUpload={onFileUpload}
+        isSaving={isSaving}
+        message="Subir pdf"
+        accept=".pdf"
+      />
     </FormLayout>
   );
 };

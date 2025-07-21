@@ -12,6 +12,7 @@ export const productSlice = createSlice({
     //     name: '',
     //     description: '',
     //     imageUrl: '',
+    //     pdfUrl: '',
     // }
   },
   reducers: {
@@ -34,6 +35,10 @@ export const productSlice = createSlice({
     },
     setPhotoToActiveProduct: (state, action) => {
       state.activeProduct.imageUrl = action.payload;
+      state.isSaving = false;
+    },
+    setPdfToActiveProduct: (state, action) => {
+      state.activeProduct.pdfUrl = action.payload;
       state.isSaving = false;
     },
     clearProductsOnLogout: (state) => {
@@ -84,4 +89,5 @@ export const {
   setSaving,
   clearMessage,
   deleteActiveProduct,
+  setPdfToActiveProduct,
 } = productSlice.actions;

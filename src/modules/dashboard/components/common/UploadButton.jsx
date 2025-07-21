@@ -1,12 +1,17 @@
 import React, { useRef } from "react";
 
-export const UploadImage = ({ onImageUpload, isSaving = false }) => {
+export const UploadButton = ({
+  onUpload,
+  isSaving = false,
+  message = "Subir imagen",
+  accept = "image/*",
+}) => {
   const fileInputRef = useRef(null);
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
-    if (file && onImageUpload) {
-      onImageUpload(file);
+    if (file && onUpload) {
+      onUpload(file);
     }
   };
 
@@ -19,7 +24,7 @@ export const UploadImage = ({ onImageUpload, isSaving = false }) => {
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept={accept}
         onChange={handleFileSelect}
         className="hidden"
       />
@@ -59,9 +64,7 @@ export const UploadImage = ({ onImageUpload, isSaving = false }) => {
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-            <span className="text-sm font-medium text-gray-700">
-              Subir imagen
-            </span>
+            <span className="text-sm font-medium text-gray-700">{message}</span>
           </>
         )}
       </button>

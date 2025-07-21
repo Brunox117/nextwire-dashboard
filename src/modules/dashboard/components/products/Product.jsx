@@ -8,7 +8,8 @@ import {
 import { Button } from "../../../../components/ui/button";
 
 export const Product = ({ product, onEdit, onDelete }) => {
-  const { name, description, imageUrl } = product;
+  const { name, description, imageUrl, pdfUrl } = product;
+  console.log({ pdfUrl });
   return (
     <Card className="h-full flex flex-col p-2">
       <CardTitle>{name}</CardTitle>
@@ -22,6 +23,16 @@ export const Product = ({ product, onEdit, onDelete }) => {
           />
         ) : (
           <></>
+        )}
+        {pdfUrl && pdfUrl !== "" && (
+          <a
+            href={pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 underline mt-2 block"
+          >
+            Ver pdf
+          </a>
         )}
       </CardContent>
 
