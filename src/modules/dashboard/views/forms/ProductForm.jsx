@@ -141,12 +141,18 @@ export const ProductForm = () => {
         value={description}
         onChange={onInputChange}
       />
-      <UploadButton onUpload={onImageUpload} isSaving={isSaving} />
+      <UploadButton
+        onUpload={onImageUpload}
+        isSaving={isSaving}
+        url={imageUrl}
+        message="Subir imagen"
+      />
       <UploadButton
         onUpload={onFileUpload}
         isSaving={isSaving}
         message="Subir pdf"
         accept=".pdf"
+        url={pdfUrl}
       />
     </FormLayout>
   );
